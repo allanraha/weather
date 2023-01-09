@@ -73,7 +73,9 @@ do
 
 done
 
-grep -e $arg1 ../meteo_filtered_data_v1.csv > data.csv
+grep -e $arg1 meteo_filtered_data_v1.csv > data.csv
+
+sort -t ';' -k 2 data.csv>data.csv
 
 #echo $arg5
 #echo $totarg
