@@ -24,6 +24,12 @@ arg6=$6
 arg7=$7
 arg8=$8
 
+do_pression=0
+do_vent=0
+do_humidite=0
+do_precipitation=0
+do_temperature=0
+
 for (( i=4 ; i<=$totarg ; i++ ))
 do 
     var=$(eval "echo \$arg"$i)
@@ -32,31 +38,31 @@ do
     if [ $var = "pression" ]
     then
         valide=1
-        echo "do_pression"
+        do_pression=1
     fi
 
     if [ $var = "vent" ]
     then
         valide=1
-        echo "do_vent"
+        do_vent=1
     fi
 
     if [ $var = "humidite" ]
     then
         valide=1
-        echo "do_humidite"
+        do_humidite=1
     fi
 
     if [ $var = "precipitation" ]
     then
         valide=1
-        echo "do_precipitation"
+        do_precipitation=1
     fi
     
     if [ $var = "temperature" ]
     then
         valide=1
-        echo "do_temperature"
+        do_temperature=1
     fi
 
     if [ $valide -eq 0 ]
@@ -66,6 +72,8 @@ do
     fi
 
 done
+
+grep -e $arg1 ../meteo_filtered_data_v1.csv > data.csv
 
 #echo $arg5
 #echo $totarg
