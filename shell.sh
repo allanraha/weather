@@ -1,97 +1,91 @@
 #!/bin/bash
 
-totarg=$#
+arguments () {
+    echo "probleme dans la saisie de la comande, arguments valides sont les suivants :
 
-#precipitation temperature humidite vitesse orientation_du_vent periode 
+    -t<1.2.3> (temperature)
+    -p<1.2.3> (pression)
+    -w (vent)
+    -m (humiditée)
+    -h (altitude)
 
-if [ $totarg -lt 4 ] || [ $totarg -gt 9 ]
-then
-    echo "probleme il faut 4 arg minimum avec:
-1-station 2-date_start 3-date_stop 
-
-4->9 :
-pression vent humidite precipitation temperature orientation"
+    -F (France metropolitaine+Corse)
+    -G (Guillane francaise)
+    -S (St Perre et Miquelon)
+    -A (Antilles)
+    -O (Ocean Indien)
+    -Q (Antartique)"
     exit 1
+}
+
+totarg=$#
+if [ $totarg -eq 0 ]
+then 
+    arguments
 fi
 
-arg1=$1
-arg2=$2
-arg3=$3
-arg4=$4
-arg5=$5
-arg6=$6
-arg7=$7
-arg8=$8
+while getopts "t:p:wmhFGSAOQ" o; do
+    case "${o}" in
+        t)
+            tmode=${OPTARG}
+            if [ $tmode -gt 3 ]
+            then 
+                arguments
+            fi
+            ;;
+        p)
+            pmode=${OPTARG}
+            if [ $pmode -gt 3 ]
+            then 
+                arguments
+            fi
+            ;;
 
-do_pression=0
-do_vent=0
-do_humidite=0
-do_precipitation=0
-do_temperature=0
-do_orientation=0
-
-for (( i=4 ; i<=$totarg ; i++ ))
-do 
-    var=$(eval "echo \$arg"$i)
-    valide=0
-    
-    if [ $var = "pression" ]
-    then
-        valide=1
-        do_pression=1
-    fi
-
-    if [ $var = "vent" ]
-    then
-        valide=1
-        do_vent=1
-    fi
-
-    if [ $var = "humidite" ]
-    then
-        valide=1
-        do_humidite=1
-    fi
-
-    if [ $var = "precipitation" ]
-    then
-        valide=1
-        do_precipitation=1
-    fi
-    
-    if [ $var = "temperature" ]
-    then
-        valide=1
-        do_temperature=1
-    fi
-
-    if [ $var = "orientation" ]
-    then
-        valide=1
-        do_orientation=1
-    fi
-
-    if [ $valide -eq 0 ]
-    then 
-        echo "L'argument \"$var\" n'est pas valide"
-        exit 1
-    fi
+        w)
+            echo "w"
+            ;;
+        m)
+            echo "m"
+            ;;
+        h)
+            echo "h"
+            ;;
+        F)
+            ;;
+        G)
+            ;;
+        S)
+            ;;
+        A)
+            ;;
+        O)
+            ;;
+        Q)
+            ;;
+        *)
+            arguments
+            ;;
+    esac
 done
+shift $((OPTIND-1))
 
 
 ##################################################################
 
 
+echo ${startstopdate[@]}
+
+<<c
 grep -e $arg1 meteo_filtered_data_v1.csv > temp.csv
 sort -t ';' -k 2 temp.csv>data.csv
 rm temp.csv
+c
+
+##################################################################
+
+
+#m
 
 
 ##################################################################
-
-
-m
-
-
-##################################################################
-rm data.csv
+#rm data.csv
