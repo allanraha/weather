@@ -3,15 +3,14 @@
 totarg=$#
 
 #precipitation temperature humidite vitesse orientation_du_vent periode 
-#prec temp humi vite orie 
 
-if [ $totarg -lt 4 ] || [ $totarg -gt 8 ]
+if [ $totarg -lt 4 ] || [ $totarg -gt 9 ]
 then
     echo "probleme il faut 4 arg minimum avec:
 1-station 2-date_start 3-date_stop 
 
-4->8 :
-pression vent humidite precipitation temperature"
+4->9 :
+pression vent humidite precipitation temperature orientation"
     exit 1
 fi
 
@@ -29,6 +28,7 @@ do_vent=0
 do_humidite=0
 do_precipitation=0
 do_temperature=0
+do_orientation=0
 
 for (( i=4 ; i<=$totarg ; i++ ))
 do 
@@ -65,17 +65,33 @@ do
         do_temperature=1
     fi
 
+    if [ $var = "orientation" ]
+    then
+        valide=1
+        do_orientation=1
+    fi
+
     if [ $valide -eq 0 ]
     then 
         echo "L'argument \"$var\" n'est pas valide"
         exit 1
     fi
-
 done
 
-grep -e $arg1 meteo_filtered_data_v1.csv > data.csv
 
-sort -t ';' -k 2 data.csv>data.csv
+##################################################################
 
-#echo $arg5
-#echo $totarg
+
+grep -e $arg1 meteo_filtered_data_v1.csv > temp.csv
+sort -t ';' -k 2 temp.csv>data.csv
+rm temp.csv
+
+
+##################################################################
+
+
+m
+
+
+##################################################################
+rm data.csv
