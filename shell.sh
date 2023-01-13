@@ -122,7 +122,7 @@ shift $((OPTIND-1))
 ##################################################################
 
 
-echo "$do_t $do_p $do_w $do_m $do_h $in_F $in_G $in_S $in_A $in_O $in_Q">temp.txt
+echo "$do_t$do_p$do_w$do_m$do_h$in_F$in_G$in_S$in_A$in_O$in_Q">temp.txt
 gcc main.c -o test && ./test
 rm test
 #rm temp.txt
