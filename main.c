@@ -1,12 +1,29 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int main(){
-    printf("haha");
+
+int get_args(){
+    FILE * file;
+    char ch;
+    
+    file = fopen("temp.txt", "r");
+
+    if (file == NULL){
+        printf("erreur ouverture temp\n");
+        return 1;
+    }
+
+    do {
+        ch = fgetc(file);
+        printf("%c", ch);
+    }while (ch != EOF);
+
+    fclose(file);
     return 0;
 }
 
 
-int get_args(){
-    
+int main(){
+    get_args();
+    return 0;
 }
