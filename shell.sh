@@ -47,7 +47,7 @@ while getopts "t:p:wmhFGSAOQ" o; do
             then 
                 arguments
             fi
-            do_t=tmode
+            do_t=$tmode
             ;;
         p)
             pmode=${OPTARG}
@@ -55,7 +55,7 @@ while getopts "t:p:wmhFGSAOQ" o; do
             then 
                 arguments
             fi
-            do_p=pmode
+            do_p=$pmode
             ;;
 
         w)
@@ -122,8 +122,10 @@ shift $((OPTIND-1))
 ##################################################################
 
 
+echo "$do_t $do_p $do_w $do_m $do_h $in_F $in_G $in_S $in_A $in_O $in_Q">temp.txt
 gcc main.c -o test && ./test
 rm test
+#rm temp.txt
 
 
 ##################################################################
