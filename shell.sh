@@ -21,7 +21,7 @@ LIEU (Un valide):
 }
 
 totarg=$#
-if [ $totarg -eq 0 ]
+if [ $totarg -lt 2 ]
 then 
     arguments
 fi
@@ -39,7 +39,8 @@ in_A=0
 in_O=0
 in_Q=0
 
-while getopts "t:p:wmhFGSAOQ" o; do
+#add --tab --avl --abr
+while getopts "t:p:wmhFGSAOQf:" o; do
     case "${o}" in
         t)
             tmode=${OPTARG}
@@ -110,7 +111,10 @@ while getopts "t:p:wmhFGSAOQ" o; do
             fi
             in_Q=1
             ;;
-        
+        f)
+            fmode=${OPTARG}
+            ;;
+
         *)
             arguments
             ;;
@@ -123,9 +127,15 @@ shift $((OPTIND-1))
 
 
 echo "$do_t$do_p$do_w$do_m$do_h$in_F$in_G$in_S$in_A$in_O$in_Q">temp.txt
+echo "$fmode">file_temp.txt
+
 gcc main.c -o test && ./test
-rm test
-rm temp.txt
+
+#rm temp.txt
+#rm file_temp.txt
 
 
 ##################################################################
+
+
+#afficher les fichiers
