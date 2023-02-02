@@ -26,35 +26,6 @@ Arbre * creerArbre(int e){
 	return noeud;
 }
 
-Arbre * insertionAVL(Arbre * a,int e,int * h){
-	if(a == NULL){
-		*h=1;
-		return(creerArbre(e));
-	}
-	else if (e < a->elt){
-		a->fg = insertionAVL(a->fg,e,h);
-		*h = -*h;
-	}
-	else if( e > a->elt){
-		a->fd = insertionAVL(a->fd,e,h);
-	}
-	else{
-		*h=0;
-		return(a);
-	}
-	
-	if(*h != 0){
-		a->equilibre = a->equilibre + *h;
-		if(a->equilibre = 0){
-			*h=0;
-		}
-		else{
-			*h=1;
-		}
-	}
-	return(a);
-}
-
 int max(int a,int b){
 	if(a>b){
 		return(a);
@@ -118,7 +89,7 @@ Arbre * doubleRotationDroite(Arbre * a){
 }
 
 Arbre * equilibreAVL(Arbre * a){
-	if(a->equilibre >= 2){
+	if(a->equilibre == 2){
 		if(a->fd->equilibre >= 0){
 			return(rotationGauche(a));
 		}
@@ -126,12 +97,42 @@ Arbre * equilibreAVL(Arbre * a){
 			return(doubleRotationGauche(a));
 		}
 	}
-	else if(a->equilibre <= -2){
+	else if(a->equilibre == -2){
 		if(a->fg->equilibre <= 0){
 			return(rotationDroite(a));
 		}
 		else{
 			return(doubleRotationDroite(a));
+		}
+	}
+	return(a);
+}
+
+Arbre * insertionAVL(Arbre * a,int e,int * h){
+	if(a == NULL){
+		*h=1;
+		return(creerArbre(e));
+	}
+	if(e < a->elt){
+		a->fg = insertionAVL(a->fg,e,h);
+		*h = -*h;
+	}
+	else if( e > a->elt){
+		a->fd = insertionAVL(a->fd,e,h);
+	}
+	else{
+		*h=0;
+		return(a);
+	}
+	
+	if(*h != 0){
+		a->equilibre = a->equilibre + *h;
+        a = equilibreAVL(a);
+		if(a->equilibre == 0){
+			*h=0;
+		}
+		else{
+			*h=1;
 		}
 	}
 	return(a);
