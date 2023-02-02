@@ -4,6 +4,140 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+typedef struct Arbre{
+	int elt;
+	struct Arbre * fg;
+	struct Arbre * fd;
+	int equilibre;	
+}Arbre;
+
+Arbre * creerArbre(int e){
+	Arbre * noeud = malloc(sizeof(Arbre));
+	if(noeud==NULL){
+		printf("Impossible de creer l'arbre");
+		exit(1);
+	}
+	else{
+		noeud->elt = e;
+		noeud->fg = NULL;
+		noeud->fd = NULL;
+		noeud->equilibre = 0;
+	}
+	return noeud;
+}
+
+Arbre * insertionAVL(Arbre * a,int e,int * h){
+	if(a == NULL){
+		*h=1;
+		return(creerArbre(e));
+	}
+	else if (e < a->elt){
+		a->fg = insertionAVL(a->fg,e,h);
+		*h = -*h;
+	}
+	else if( e > a->elt){
+		a->fd = insertionAVL(a->fd,e,h);
+	}
+	else{
+		*h=0;
+		return(a);
+	}
+	
+	if(*h != 0){
+		a->equilibre = a->equilibre + *h;
+		if(a->equilibre = 0){
+			*h=0;
+		}
+		else{
+			*h=1;
+		}
+	}
+	return(a);
+}
+
+int max(int a,int b){
+	if(a>b){
+		return(a);
+	}
+	else{
+		return(b);
+	}
+}
+
+int min(int a,int b){
+	if(a<b){
+		return(a);
+	}
+	else{
+		return(b);
+	}
+}
+
+Arbre * rotationGauche(Arbre * a){
+	Arbre * pivot;
+	int eq_a;
+	int eq_p;
+	
+	pivot = a->fd;
+	a->fd = pivot->fg;
+	pivot->fg = a;
+	eq_a = a->equilibre;
+	eq_p = pivot->equilibre;
+	a->equilibre = eq_a - max(eq_p , 0)-1;
+	pivot->equilibre = min(min(eq_a-2, eq_a+eq_p-2),eq_p-1);
+	a = pivot;
+	return(a); 
+		
+}
+
+Arbre * rotationDroite(Arbre * a){
+	Arbre * pivot;
+	int eq_a;
+	int eq_p;
+	
+	pivot = a->fg;
+	a->fg = pivot->fd;
+	pivot->fd = a;
+	eq_a = a->equilibre;
+	eq_p = pivot->equilibre;
+	a->equilibre = eq_a - min(eq_p , 0)+1;
+	pivot->equilibre = max(max(eq_a+2, eq_a+eq_p+2),eq_p+1);
+	a = pivot;
+	return(a); 
+		
+}
+
+Arbre * doubleRotationGauche(Arbre * a){
+	a->fd = rotationDroite(a->fd);
+	return(rotationGauche(a));
+}
+
+Arbre * doubleRotationDroite(Arbre * a){
+	a->fg = rotationGauche(a->fg);
+	return(rotationDroite(a));
+}
+
+Arbre * equilibreAVL(Arbre * a){
+	if(a->equilibre >= 2){
+		if(a->fd->equilibre >= 0){
+			return(rotationGauche(a));
+		}
+		else{
+			return(doubleRotationGauche(a));
+		}
+	}
+	else if(a->equilibre <= -2){
+		if(a->fg->equilibre <= 0){
+			return(rotationDroite(a));
+		}
+		else{
+			return(doubleRotationDroite(a));
+		}
+	}
+	return(a);
+}
+
+
 //  ./main -f <file> -o <output_file> -r (optional, reverse) --tab/--abr/--avl (optional)
 
 int main(int argc, char **argv){
