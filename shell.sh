@@ -122,6 +122,54 @@ while getopts "t:p:wmhFGSAOQf:" o; do
 done
 shift $((OPTIND-1))
 
+#--temperature mode 1--#
+if [ $do_t -eq 1]
+then
+	cut -d";" -f1,11,12,13 meteo_filtered_data_v1.csv > t1.csv
+#--temperature mode 2(moyenne temperature)--#
+elif [ $do_t -eq 2]
+	cut -d";" -f1,2,11 meteo_filtered_data_v1.csv > t2.csv
+
+#--temperature mode 3--#
+elif [ $do_t -eq 3]
+	cut -d";" -f1,2,11 meteo_filtered_data_v1.csv > t3.csv
+fi
+
+
+#--pression mode 1--#
+if [ $do_p -eq 1]
+then
+	cut -d";" -f1,7 meteo_filtered_data_v1.csv > p1.csv
+	
+#--pression mode 2(moyenne temperature)--#
+elif [ $do_t -eq 2]
+	cut -d";" -f1,2,7 meteo_filtered_data_v1.csv > p2.csv
+
+#--pression mode 3--#
+elif [ $do_t -eq 3]
+	cut -d";" -f1,2,7 meteo_filtered_data_v1.csv > p3.csv
+fi
+
+
+#--vent--#
+if [ $do_w -eq 1]
+then
+	cut -d";" -f1,4,5 meteo_filtered_data_v1.csv > w.csv
+fi
+
+#--altitude--#
+if [ $do_h -eq 1]
+then
+	cut -d";" -f1,14 meteo_filtered_data_v1.csv > h.csv
+fi
+
+#--humidite--#
+if [ $do_m -eq 1]
+then
+	cut -d";" -f1,6 meteo_filtered_data_v1.csv > m.csv
+fi
+
+
 
 ##################################################################
 
