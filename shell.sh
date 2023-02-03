@@ -180,13 +180,13 @@ then
 	cut -d";" -f1,7 $fmode > out_temp.csv
 	./main -f out_temp.csv -o sorted_p1.csv -c 1  $tri_mode
 #--pression mode 2(moyenne temperature)--#
-elif [ $do_t -eq 2 ]
+elif [ $do_p -eq 2 ]
 then
 	cut -d";" -f1,2,7 $fmode > out_temp.csv
     ./main -f out_temp.csv -o sorted_p2.csv -c 2 $tri_mode
 
 #--pression mode 3--#
-elif [ $do_t -eq 3 ]
+elif [ $do_p -eq 3 ]
 then
 	cut -d";" -f1,2,7 $fmode > out_temp.csv
     ./main -f out_temp.csv -o sorted_p3.csv -c 2 $tri_mode
