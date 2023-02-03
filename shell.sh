@@ -216,23 +216,6 @@ then
 fi
 
 
-
-
-
-##################################################################
-
-
-echo "$tri_mode aaa $do_t$do_p$do_w$do_m$do_h$in_F$in_G$in_S$in_A$in_O$in_Q">temp.txt
-echo "out_temp.csv">file_temp.txt
-
-rm out_temp.csv
-
-#gcc main.c -o test && ./test
-
-#rm temp.txt
-#rm file_temp.txt
-
-
 ##################################################################
 
 
