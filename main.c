@@ -140,6 +140,19 @@ Node * insertionAVL(Node * a,int e,int * h, char *str_val){
 	return(a);
 }
 
+Node * insertionAbr(Node * a,int e,int * h, char *str_val){
+	if(a == NULL){
+		return(creerNode(e, str_val));
+	}
+	else if(e < a->elt){
+		a->fg = insertionAbr(a->fg,e,h,str_val);
+	}
+	else if( e > a->elt){
+		a->fd = insertionAbr(a->fd,e,h,str_val);
+	}
+	return(a);
+}
+
 FILE * fetch_file(char *file_name){
 	FILE *f = NULL;
 	f = fopen(file_name, "r");
@@ -150,12 +163,15 @@ FILE * fetch_file(char *file_name){
 }
 
 void parcours_save(FILE *file, Node *arbre){
+	if (arbre == NULL){
+		return;
+	}
+	parcours_save(file, arbre->fg);
 	fprintf(file, "%s", arbre->str);
-	printf("str = %s", arbre->str);
-	fclose(file);
+	parcours_save(file, arbre->fd);
 }
 
-FILE * sort(FILE *file, int column, FILE *output_file){
+FILE * sortAvl(FILE *file, int column, FILE *output_file){
 	char str[200];
 	char strcp[200];
 	char *temp;
@@ -181,6 +197,36 @@ FILE * sort(FILE *file, int column, FILE *output_file){
 	}
 
 	parcours_save(output_file, arbre);
+	fclose(output_file);
+}
+
+FILE * sortAbr(FILE *file, int column, FILE *output_file){
+	char str[200];
+	char strcp[200];
+	char *temp;
+	int val;
+	int i;
+	
+	Node *arbre = NULL;
+	int *h;
+	*h = 0;
+
+	fgets(str, 200, file);//removes the first row
+	fgets(str, 200, file);//removes the first row
+
+	while (fgets(str, 200, file)!=NULL){
+		strcpy(strcp, str);
+		temp = strtok(strcp, ";");
+		for (i = 0; i < column; i++){
+			temp = strtok(NULL, ";");
+		}
+		val = atoi(temp);
+		
+		arbre = insertionAbr(arbre, val, h, str);
+	}
+
+	parcours_save(output_file, arbre);
+	fclose(output_file);
 }
 
 
@@ -258,7 +304,14 @@ int main(int argc, char **argv){
 	if (foutput == NULL){
 		exit(2);
 	}
-	sort(data, column_to_sort, foutput);
+
+	if (optflag = 1){
+		sortAbr(data, column_to_sort, foutput);
+	}
+	else if (optflag = 2){
+		sortavl(data, column_to_sort, foutput);
+	}
+	
 	fclose(data);
 
     return 0;
