@@ -305,11 +305,11 @@ int main(int argc, char **argv){
 		exit(2);
 	}
 
-	if (optflag = 1){
+	if (optflag == 1){
 		sortAbr(data, column_to_sort, foutput);
 	}
-	else if (optflag = 2){
-		sortavl(data, column_to_sort, foutput);
+	else if (optflag == 2){
+		sortAvl(data, column_to_sort, foutput);
 	}
 	
 	fclose(data);
