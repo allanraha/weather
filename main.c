@@ -6,7 +6,7 @@
 
 typedef struct Node{
 	int elt;
-	char str[100];
+	char str[200];
 	struct Node * fg;
 	struct Node * fd;
 	int equilibre;	
@@ -151,6 +151,8 @@ FILE * fetch_file(char *file_name){
 
 void parcours_save(FILE *file, Node *arbre){
 	fprintf(file, "%s", arbre->str);
+	printf("str = %s", arbre->str);
+	fclose(file);
 }
 
 FILE * sort(FILE *file, int column, FILE *output_file){
@@ -159,8 +161,13 @@ FILE * sort(FILE *file, int column, FILE *output_file){
 	char *temp;
 	int val;
 	int i;
-
+	
 	Node *arbre = NULL;
+	int *h;
+	*h = 0;
+
+	fgets(str, 200, file);//removes the first row
+	fgets(str, 200, file);//removes the first row
 
 	while (fgets(str, 200, file)!=NULL){
 		strcpy(strcp, str);
@@ -170,10 +177,10 @@ FILE * sort(FILE *file, int column, FILE *output_file){
 		}
 		val = atoi(temp);
 		
-		arbre = insertionAVL(arbre, val, 0, str);
+		arbre = insertionAVL(arbre, val, h, str);
 	}
 
-	//parcours_save(output_file, arbre);
+	parcours_save(output_file, arbre);
 }
 
 
@@ -250,9 +257,7 @@ int main(int argc, char **argv){
 	if (foutput == NULL){
 		exit(2);
 	}
-
 	sort(data, 1, foutput);
-
 	fclose(data);
 
     return 0;
