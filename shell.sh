@@ -140,7 +140,7 @@ while getopts "t:p:wmhFGSAOQf:abc" o; do
             tri_mode="--abr"
             ;;
 
-        a)
+        c)
             tri_mode="--avl"
             ;;
         *)
