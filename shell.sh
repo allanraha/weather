@@ -158,18 +158,18 @@ gcc main.c -o main
 #--temperature mode 1  station,--#
 if [ $do_t -eq 1 ]
 then
-	cut -d";" -f1,11,12,13 meteo_filtered_data_v1.csv > $fmode
-    ./main -f $fmode -o sorted_t1.csv -c 1 $tri_mode
+	cut -d";" -f1,11,12,13 $fmode > out_temp.csv
+    ./main -f out_temp.csv -o sorted_t1.csv -c 1 $tri_mode
 #--temperature mode 2(moyenne temperature)--#
 elif [ $do_t -eq 2 ]
 then
-	cut -d";" -f1,2,11 meteo_filtered_data_v1.csv > $fmode
-    ./main -f $fmode -o sorted_t2.csv -c 2 $tri_mode
+	cut -d";" -f1,2,11 $fmode > out_temp.csv
+    ./main -f out_temp.csv -o sorted_t2.csv -c 2 $tri_mode
 #--temperature mode 3--#
 elif [ $do_t -eq 3 ]
 then
-	cut -d";" -f1,2,11 meteo_filtered_data_v1.csv > $fmode
-    ./main -f $fmode -o sorted_t3.csv -c 2 $tri_mode
+	cut -d";" -f1,2,11 $fmode > out_temp.csv
+    ./main -f out_temp.csv -o sorted_t3.csv -c 2 $tri_mode
     ./main -f sorted_t3.csv -o sorted_t3.csv -c 1 $tri_mode
 fi
 
@@ -177,19 +177,19 @@ fi
 #--pression mode 1--#
 if [ $do_p -eq 1 ]
 then
-	cut -d";" -f1,7 meteo_filtered_data_v1.csv > $fmode
-	./main -f $fmode -o sorted_p1.csv -c 1  $tri_mode
+	cut -d";" -f1,7 $fmode > out_temp.csv
+	./main -f out_temp.csv -o sorted_p1.csv -c 1  $tri_mode
 #--pression mode 2(moyenne temperature)--#
 elif [ $do_t -eq 2 ]
 then
-	cut -d";" -f1,2,7 meteo_filtered_data_v1.csv > $fmode
-    ./main -f $fmode -o sorted_p2.csv -c 2 $tri_mode
+	cut -d";" -f1,2,7 $fmode > out_temp.csv
+    ./main -f out_temp.csv -o sorted_p2.csv -c 2 $tri_mode
 
 #--pression mode 3--#
 elif [ $do_t -eq 3 ]
 then
-	cut -d";" -f1,2,7 meteo_filtered_data_v1.csv > $fmode
-    ./main -f $fmode -o sorted_p3.csv -c 2 $tri_mode
+	cut -d";" -f1,2,7 $fmode > out_temp.csv
+    ./main -f out_temp.csv -o sorted_p3.csv -c 2 $tri_mode
     ./main -f sorted_p3.csv -o sorted_p3.csv -c 1 $tri_mode
 fi
 
@@ -197,22 +197,22 @@ fi
 #--vent--#
 if [ $do_w -eq 1 ]
 then
-	cut -d";" -f1,4,5 meteo_filtered_data_v1.csv > $fmode
-    ./main -f $fmode -o sorted_w.csv -c 1 $tri_mode
+	cut -d";" -f1,4,5 $fmode > out_temp.csv
+    ./main -f out_temp.csv -o sorted_w.csv -c 1 $tri_mode
 fi
 
 #--altitude--#
 if [ $do_h -eq 1 ]
 then
-	cut -d";" -f1,14 meteo_filtered_data_v1.csv > $fmode
-    ./main -f $fmode -o sorted_h.csv -c 2 -r $tri_mode
+	cut -d";" -f1,14 $fmode > out_temp.csv
+    ./main -f out_temp.csv -o sorted_h.csv -c 2 -r $tri_mode
 fi
 
 #--humidite--#
 if [ $do_m -eq 1 ]
 then
-	cut -d";" -f1,6 meteo_filtered_data_v1.csv > m.csv
-    ./main -f $fmode -o sorted_m.csv -c 2 -r $tri_mode
+	cut -d";" -f1,6 $fmode > m.csv
+    ./main -f out_temp.csv -o sorted_m.csv -c 2 -r $tri_mode
 fi
 
 
@@ -223,9 +223,9 @@ fi
 
 
 echo "$tri_mode aaa $do_t$do_p$do_w$do_m$do_h$in_F$in_G$in_S$in_A$in_O$in_Q">temp.txt
-echo "$fmode">file_temp.txt
+echo "out_temp.csv">file_temp.txt
 
-rm $fmode
+rm out_temp.csv
 
 #gcc main.c -o test && ./test
 
@@ -237,3 +237,4 @@ rm $fmode
 
 
 #afficher les fichiers
+
