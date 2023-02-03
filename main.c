@@ -6,7 +6,7 @@
 
 typedef struct Node{
 	int elt;
-	char *str;
+	char str[100];
 	struct Node * fg;
 	struct Node * fd;
 	int equilibre;	
@@ -31,7 +31,6 @@ int min(int a,int b){
 }
 
 Node * creerNode(int e, char *str_val){
-	printf("test");
 	Node * noeud = malloc(sizeof(Node));
 	if(noeud==NULL){
 		printf("Impossible de creer l'Node");
@@ -39,7 +38,7 @@ Node * creerNode(int e, char *str_val){
 	}
 	else{
 		noeud->elt = e;
-		noeud->str = str_val;
+		strcpy(noeud->str, str_val);
 		noeud->fg = NULL;
 		noeud->fd = NULL;
 		noeud->equilibre = 0;
