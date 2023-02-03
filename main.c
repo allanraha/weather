@@ -191,6 +191,7 @@ int main(int argc, char **argv){
     int fflag = 0;
     int oflag = 0;
     int rflag = 0;
+	int cflag = 0;
     int optflag = 2; //tab = 0 abr = 1 avl = 2
     int _arg = 0;
     
@@ -233,7 +234,7 @@ int main(int argc, char **argv){
             optflag = 2;
             break;
 		case 'c':
-
+			cflag = 1;
 			column_to_sort = atoi(optarg);
 			break;
 
@@ -245,7 +246,7 @@ int main(int argc, char **argv){
             abort();
     }
     
-    if (!(fflag & oflag)){
+    if (!(fflag & oflag & cflag)){
         return 1;
     }
 
@@ -257,7 +258,7 @@ int main(int argc, char **argv){
 	if (foutput == NULL){
 		exit(2);
 	}
-	sort(data, 1, foutput);
+	sort(data, column_to_sort, foutput);
 	fclose(data);
 
     return 0;
